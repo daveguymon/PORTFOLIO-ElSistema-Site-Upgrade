@@ -1,6 +1,8 @@
 .Ad_sidebarMain {
+  position: sticky;
+  box-sizing: border-box;
   width: 14%;
-  height: 860px;
+  min-height: 100vh;
   background-color: #EDEDED;
   color: #7b7b7c;
   float: left;
@@ -8,14 +10,17 @@
 
 .sideNav {
   height: 60px;
-  /*border: 2px solid red;*/
   display: flex;
   align-items: center;
 }
 
+.Ad_sidebarMain a {
+  text-decoration: none;
+  color: #7B7B7C;
+}
+
 .sidefa {
   font-size: 20px;
-  width: 35px;
   margin-left: 15px;
 }
 
@@ -34,6 +39,17 @@
     display: inline-block;
   }
 
+  .sideNav {
+    box-sizing: border-box;
+    font-size: large;
+  }
+
+  .sidefa {
+    font-size: 1.15em;
+    margin-left: 20px;
+    margin-right: 15px;
+  }
+
   .Ad_sidebarMain {
     width: 31%;
     height: 1320px;
@@ -43,8 +59,18 @@
 
 @media(min-width: 1000px) {
   .Ad_sidebarMain {
-    width: 22%;
-    height: 100vh;
+    width: 17%;
     background-color: #EDEDED;
+    height: 110vh;
+  }
+
+  .sideNav {
+    font-size: large;
+  }
+
+  .sidefa {
+    font-size: 1.15em;
+    margin-left: 33px;
+    margin-right: 28.5px;
   }
 }

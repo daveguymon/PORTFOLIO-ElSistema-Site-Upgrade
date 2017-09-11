@@ -4,19 +4,27 @@ import AdminHome_RCC from './AdminHome_RCC';
 import AdminHome_SOAT from './AdminHome_SOAT';
 import Admin_Calender from './Admin_Calender';
 import {connect} from 'react-redux';
+import axios from 'axios';
+
+
 
 class AdminHome extends Component{
-  constructor(props){
-    super(props);
-
+  componentDidMount(){
+    axios.get('/api/admin')
+      .then(res => {
+        if(!res.data[0].admin_status){
+          this.props.history.push('/')
+        }
+      })
   }
 
   render(){
 
-      const fullPageStyle = { width: "100%" }
+      const fullPageStyle = { width: "100vw", margin: "0 auto" }
+      const dropDownStyle = {width: "calc(100vw - 17%)", margin: " 0 auto"}
 
     return(
-      <main className="Ad_homeMain" style={ this.props.dropdownDisplayed ? null : fullPageStyle}>
+      <main className="Ad_homeMain" style={ this.props.dropdownDisplayed ? dropDownStyle : fullPageStyle}>
         <AdminHome_RCC />
         <AdminHome_SOAT />
         <Admin_Calender />

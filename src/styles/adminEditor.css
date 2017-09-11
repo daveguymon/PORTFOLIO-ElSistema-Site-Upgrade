@@ -1,17 +1,18 @@
 .adminWrapper {
   display: flex;
-  justify-content: center;
-  width: 78%;
+  flex-direction: column;
   min-height: 100vh;
 }
 
 .adminContentContainer {
   width: 95%;
   height: auto;
+  margin: 0 auto;
   background-color: white;
 }
 
 .adminPageHeaderContainer {
+  box-sizing: border-box;
   display: flex;
   align-items: center;
   width: 100%;
@@ -21,18 +22,29 @@
 }
 
 .adminPageHeader {
-  font-size: large;
+  box-sizing: border-box;
+  font-size: x-large;
+  margin-right: .75em;
+}
+
+.fa-plus-square {
+  color: #F3A537;
 }
 
 .itemsSelected {
   box-sizing: border-box;
   display: flex;
   align-items: center;
+  justify-content: space-between;
   width: 100%;
   min-height: 5vh;
-  padding-left: 2.5%;
+  padding: 0 3.25%;
   background-color: #E8EFFC;
   color: #5182EA;
+}
+
+.trashAll {
+  font-size: 1.25em;
 }
 
 .columnTitles {
@@ -77,12 +89,16 @@
   }
 
   .adminPageHeader {
-    font-size: x-large;
+    font-size: xx-large;
+  }
+
+  .fa-plus-square {
+    font-size: 1.25em;
   }
 
   .itemsSelected {
     min-height: 6vh;
-    padding-left: 3.5%;
+    padding: 0 3.75%;
   }
 
   .itemsSelected p {
@@ -105,12 +121,21 @@
   .editRemove {
     width: 11.5%;
   }
+
+  .trashAll {
+    font-size: 1.05em !important;
+  }
 }
 
 @media(min-width: 1000px){
 
   .adminWrapper {
     width: 78%;
+    padding-bottom: 6vh;
+  }
+
+  .adminContentContainer {
+    flex-direction: column;
   }
 
   .adminPageHeaderContainer {
@@ -121,6 +146,14 @@
     font-size: xx-large;
   }
 
+  .fa-plus-square {
+    font-size: 1.5em;
+  }
+
+  .itemsSelected {
+    padding: 0 4.65%;
+  }
+
   .itemsSelected {
     min-height: 7vh;
   }
@@ -128,7 +161,6 @@
   .columnTitles {
     min-height: 7vh;
   }
-
 
   .checkbox {
     min-height: 20px;

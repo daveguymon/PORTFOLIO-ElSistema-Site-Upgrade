@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import axios from 'axios';
 import './../styles/indivBlogPostDetails.css';
+import {Link} from 'react-router-dom';
 
 export default class IndivBlogPostDetails extends Component {
   constructor(props){
@@ -14,7 +15,7 @@ export default class IndivBlogPostDetails extends Component {
   markChecked(){
     this.setState({
       itemChecked: !this.state.itemChecked,
-      checkedQty: this.state.checkedQty == 0 ? 1 : 0
+      checkedQty: this.state.checkedQty === 0 ? 1 : 0
     })
   }
 
@@ -30,6 +31,8 @@ export default class IndivBlogPostDetails extends Component {
 
   render(){
 
+    console.log("Props is: ", this.props.post.posts_id)
+
     console.log("Item checked :", this.state.itemChecked)
 
     const checkedBoxStyle = { backgroundColor: "#5182EA", borderColor: "#5182EA"}
@@ -42,7 +45,9 @@ export default class IndivBlogPostDetails extends Component {
           <div className="checkbox" onClick={this.markChecked.bind(this)} style={this.state.itemChecked ? checkedBoxStyle : null}><i className="fa fa-check fa-fw whiteCheck" aria-hidden="true"></i></div>
         </div>
         <div className="blogDetailsItem2">
+          <Link to={`/blog/${this.props.post.posts_id}`}>
           <p>{this.props.post.post_title}</p>
+          </Link>
         </div>
         <div className="blogDetailsItem3">
           <p>{this.props.post.date_month_number}/{this.props.post.date_day}/{this.props.post.date_year}</p>
@@ -51,7 +56,9 @@ export default class IndivBlogPostDetails extends Component {
           <p>{this.props.post.user_name}</p>
         </div>
         <div className="blogDetailsItem5">
+        <Link to={"/admin/blog/update/" + this.props.post.posts_id}>
           <p><i className="fa fa-pencil" aria-hidden="true"></i></p>
+        </Link>
           <p><i className="fa fa-trash" aria-hidden="true" onClick={this.deletePost.bind(this)}></i></p>
         </div>
       </main>

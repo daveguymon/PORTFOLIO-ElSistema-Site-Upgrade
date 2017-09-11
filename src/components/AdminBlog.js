@@ -2,7 +2,10 @@ import React, {Component} from 'react';
 import axios from 'axios';
 import IndivBlogPostDetails from './IndivBlogPostDetails';
 import './../styles/adminEditor.css';
+import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
+
+
 class AdminBlog extends Component {
   constructor(props){
     super(props);
@@ -14,6 +17,12 @@ class AdminBlog extends Component {
   }
 
   componentDidMount(){
+    axios.get('/api/admin')
+      .then(res => {
+        if(!res.data[0].admin_status){
+          this.props.history.push('/')
+        }
+      })
     axios.get('/api/blogs').then(res => {
       console.log("Res data is:", res.data)
       this.setState({
@@ -43,8 +52,6 @@ class AdminBlog extends Component {
 
 
   render(){
-    console.log("All boxes checked ", this.state.checkAllBoxes)
-    console.log("FetchedPosts Array is :", this.state.fetchedPosts)
 
     const checkedBoxStyle = { backgroundColor: "#5182EA", borderColor: "#5182EA"}
 
@@ -57,16 +64,23 @@ class AdminBlog extends Component {
 
     const fullPageStyle = { width: "100%" }
 
-    const postAmount = this.state.fetchedPosts.length == 1 ? "item selected" : "items selected"
+    const fetchedItemsAmount = this.state.fetchedPosts.length == 1 ? "item selected" : "items selected"
+
+    const displayTrashAll = {display: "none"}
+
 
     return(
       <main className="adminWrapper" style={ this.props.dropdownDisplayed ? null : fullPageStyle}>
         <section className="adminContentContainer">
           <div className="adminPageHeaderContainer">
             <p className="adminPageHeader">Current Blog Posts</p>
+            <Link to="/admin/blog/addNew">
+              <i className="fa fa-plus-square" aria-hidden="true"></i>
+            </Link>
           </div>
           <div className="itemsSelected">
-            <p>{this.state.checkAllBoxes ? this.state.amountChecked : 0} {postAmount}</p>
+          <p>{this.state.checkAllBoxes ? this.state.amountChecked : 0} {fetchedItemsAmount}</p>
+          <p style={this.state.checkAllBoxes ? null : displayTrashAll}><i className="fa fa-trash trashAll" aria-hidden="true"></i></p>
           </div>
           <div className="columnTitles postDetailsWrapper" style={this.state.checkAllBoxes ? itemRowSelectedStyle : null}>
             <div className="blogDetailsItem1">

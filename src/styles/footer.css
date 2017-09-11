@@ -54,8 +54,7 @@
   width: 30px;
   border-radius: 50%;
   background-color: #ECC749;
-  margin-right: 1em;
-  margin-top: .5em;
+  margin: .5em .5em 0 .5em;
 }
 
 .fa-facebook {
@@ -99,6 +98,32 @@
   color: white;
 }
 
+
+
+.mapWrapper {
+  position: fixed;
+  z-index: 1000;
+  left: 17%;
+  top: 15%;
+  width: 68%;
+  height: 74vw;
+}
+
+.crossOut {
+  width: 50px;
+  height: 50px;
+  position: absolute;
+  z-index: 5000;
+  top: -21px;
+  right: -21px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+
+
 @media(min-width: 700px){
 
   .topFooterDiviPhone {
@@ -106,7 +131,9 @@
   }
 
   .footer {
+    box-sizing: border-box;
     min-height: 36vh;
+    padding-top: 40px;
   }
 
   .sectionsContainer {
@@ -129,7 +156,7 @@
     display: none;
   }
 
-  .stayConnectedTabDesk{
+  .stayConnectedTabDesk {
     display: flex;
     flex-direction: column;
     width: 37%;
@@ -155,9 +182,10 @@
   }
 
   .signUpButton {
+    box-sizing: border-box;
     text-align: center;
     width: 5em;
-    height: 1.5em;
+    height: 1.75em;
     margin-top: .5em;
     border: 1px solid #ECC749;
   }
@@ -170,7 +198,7 @@
   }
 
   .stayConnectedTabDesk h3, .committedToPitt h3 {
-    font-size: 14px;
+    font-size: medium;
     padding: 6px 0px;
   }
 
@@ -228,13 +256,32 @@
   }
 
   .stayConnectedTabDesk h3, .committedToPitt h3, .footerNavigation h3 {
-    font-size: 18px;
+    font-size: larger;
     padding: 6px 0px;
     color: white;
+    margin-bottom: 12px;
   }
 
-  .signUpButton {
+  .stayConnectedTabDesk p, .committedToPitt p, .footerNavigation p {
+    font-size: medium;
+    line-height: 1.25em;
+  }
+
+  .signUpButton, .contactUsButton {
+    box-sizing: border-box;
     width: 7em;
+    height: 2em;
+  }
+
+  .socialCircle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    background-color: #ECC749;
+    margin: .5em .5em 0 .5em;
   }
 
   .committedToPitt {
@@ -254,15 +301,12 @@
   }
 
   .footerNavLinks p{
-    margin: .5em 0;
+    margin: 0 0 5px 0;
+    font-size: medium;
   }
 
   .fa-caret-right {
     color: #5392B6;
-  }
-
-  .contactUsButton {
-    width: 7em;
   }
 
   .contactUsButton p{
@@ -286,5 +330,32 @@
 
   .bottomFooterDiv p:nth-child(2) {
     font-size: 14px;
+  }
+
+  .mapWrapper {
+    position: fixed;
+    z-index: 1000;
+    left: 32%;
+    top: 7%;
+    width: 35%;
+    height: 27vw;
+
+  }
+
+  .crossOut {
+    width: 50px;
+    height: 50px;
+    position: absolute;
+    z-index: 5000;
+    top: -21px;
+    right: -21px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+
+  .crossOutIcon {
+    font-size: 55px;
   }
 }

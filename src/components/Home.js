@@ -1,23 +1,31 @@
-import React from 'react';
+import React, {Component} from 'react';
 import './../styles/home.css';
 import {Link} from 'react-router-dom';
 
-export default function Home (props) {
+
+
+class Home extends Component {
+
+
+
+render(){
+
   return (
     <main className="mainContent">
+
       <section className="homeBanner">
         <div className="quoteContainer">
           <div className="socialIconsQuote">
             <a href="https://www.facebook.com/ElSistemaPittsburgh/" target="_blank">
-              <div className="socialCircleQuote"><i className="fa fa-facebook fa-fw" aria-hidden="true"></i></div>
+              <div className="socialCircleQuote"><i className="fa fa-facebook homeSocial" aria-hidden="true"></i></div>
             </a>
 
             <a href="https://twitter.com/elsistema" target="blank">
-              <div className="socialCircleQuote"><i className="fa fa-twitter fa-fw" aria-hidden="true"></i></div>
+              <div className="socialCircleQuote"><i className="fa fa-twitter homeSocial" aria-hidden="true"></i></div>
             </a>
 
             <a href="https://www.linkedin.com/company/3276954/" target="_blank">
-              <div className="socialCircleQuote"><i className="fa fa-linkedin fa-fw" aria-hidden="true"></i></div>
+              <div className="socialCircleQuote"><i className="fa fa-linkedin homeSocial" aria-hidden="true"></i></div>
             </a>
           </div>
 
@@ -82,13 +90,20 @@ export default function Home (props) {
         <div className="coreValuesContainer">
           <div className="coreValuesTop">
             <div className="coreValuesImgDivOne">
+
               <div className="coreValuesTextOne">
-                <p className="valuesTextBlock">El Sistema Pittsburgh is grateful for our family of supporters. Partnerships with individual donors, corporations, government agencies, and foundations ensure that music education programs are available to young musicians in every neighborhood, regardless of socio-economic circumstance. Every dollar dontated to ESPGH helps change {"kids'"} lives through music.</p>
-                <Link to="/support" className="linkedButton">
-                  <div className="coreValuesButton">
-                  <p className="supportUsButtonText">Support Us</p>
-                  </div>
-                </Link>
+
+              <div className="valuesTextContainer">
+                  <p className="valuesTextBlock">El Sistema Pittsburgh is grateful for our family of supporters. Partnerships with individual donors, corporations, government agencies, and foundations ensure that music education programs are available to young musicians in every neighborhood, regardless of socio-economic circumstance. Every dollar dontated to ESPGH helps change {"kids'"} lives through music.</p>
+                </div>
+
+                <div className="homeButtonContainer">
+                  <Link to="/support" className="linkedButton">
+                    <div className="coreValuesButton">
+                    <p className="supportUsButtonText">Support Us</p>
+                    </div>
+                  </Link>
+                </div>
               </div>
             </div>
 
@@ -109,7 +124,7 @@ export default function Home (props) {
           <div className="coreValuesImgDivTwo">
             <div className="coreValuesTextThree">
             <p className="textBlockThreeHeader">El Sistema Core Values</p>
-              <ul className="valuesTextBlock">
+              <ul className="valuesTextBlock valuesTextBlockThree">
                 <div className="valuesItem">
                   <i className="home-music fa fa-music fa-fw" aria-hidden="true"></i><p className="valuesListItemText">Music education as social change</p>
                 </div>
@@ -123,10 +138,13 @@ export default function Home (props) {
                   <i className="home-music fa fa-music fa-fw" aria-hidden="true"></i><p className="valuesListItemText">Community</p>
                 </div>
               </ul>
-              <Link to="/about" className="linkedButton">
-                <div className="coreValuesButton"><p className="supportUsButtonText">Read More</p>
-                </div>
-              </Link>
+              <div className="homeButtonContainer">
+                <Link to="/about" className="linkedButton">
+                  <div className="coreValuesButton readMoreButton">
+                    <p className="supportUsButtonText">Read More</p>
+                  </div>
+                </Link>
+              </div>
 
             </div>
           </div>
@@ -151,3 +169,7 @@ export default function Home (props) {
     </main>
   )
 }
+}
+
+
+export default Home;

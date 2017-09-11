@@ -1,5 +1,6 @@
 require('dotenv').config();
 var express = require('express');
+var awsController = require('./awsController');
 var massive = require('massive');
 var bodyParser = require('body-parser');
 var userController = require('./userController');
@@ -7,15 +8,15 @@ var Auth0Strategy = require('passport-auth0');
 var session = require('express-session');
 var passport = require('passport');
 var cors = require('cors');
+var stripe = require('stripe')('sk_test_LkNfgMLBoBD50f69BBQYPnni')
 // var config = require('./config')
 var app = module.exports = express();
 var port = 8080;
 
 
 
-
-
 app.use(cors());
+app.use( express.static( `${__dirname}/../build` ) );
 
 app.use(session({
   resave: true, //Without this you get a constant warning about default values
@@ -89,7 +90,7 @@ app.get('/auth/callback',
 })
 
 app.get('/auth/me', function(req, res) {
-
+  console.log(req.user.id)
   res.status(200).send(req.user);
 })
 
@@ -145,9 +146,32 @@ app.listen(port, ()=> {
 
 
 //=============GET REQUESTS =====================
+
+app.get('/api/admin', (req, res) => {
+  const db = req.app.get('db');
+  let id = false;
+  if(req.user){
+    id = req.user.id
+  };
+
+  console.log(id)
+
+  if(id){
+    db.get_user_admin_status([id])
+      .then(status => {
+        res.status(200).send(status);
+      })
+      .catch(err => res.status(500).send(err))
+  } else {
+    res.status(200).send([{admin_status: false}])
+  }
+
+})
+
 app.get('/api/blogs', userController.getBlogPosts)
 app.get('/api/events', userController.getEvents)
-// app.get('/api/pictures')
+app.get('/api/media', userController.getMedia)
+app.get('/api/media/:id', userController.getMediaById)
 app.get('/api/users', userController.getUsers)
 app.get('/api/volunteers', userController.getVolunteers)
 app.get('/api/quote', userController.getQuote)
@@ -155,14 +179,17 @@ app.get('/api/performances', userController.getPerformances)
 app.get('/api/classes', userController.getClasses)
 app.get('/api/events/:eventid', userController.getEventById)
 app.get('/api/blogs/:blogid', userController.getBlogById)
+app.get('/api/volunteers/:volunteerid',userController.getVolunteerById)
+
 
 //===============POST REQUESTS===================
 app.post('/api/events', userController.postEvent)
 app.post('/api/volunteers', userController.postVolunteer)
 app.post('/api/quote', userController.postQuote)
-// app.post('/api/newimage', userController.postImage)
 app.post('/api/post', userController.postNewPost)
-
+//AWS
+app.post('/api/getSignedURL', awsController.getSignedURL)
+app.post('/api/media', userController.postMedia)
 
 //===============PUT REQUESTS===================
 app.put('/api/events/:eventid', userController.putEvent)
@@ -171,18 +198,66 @@ app.put('/api/volunteers/:volunteerid', userController.putVolunteer)
 app.put('/api/users/:userid', userController.putUserAdmin)
 // app.put('/api/users/profilePic/:userid')
 app.put('/api/posts/:postid', userController.putPost)
+app.put('/api/media/:mediaid', userController.putMedia)
 
 //===============DELETE REQUESTS===================
 app.delete('/api/posts/:postid', userController.deletePost)
 app.delete('/api/volunteers/:volunteerid', userController.deleteVolunteer)
-// app.delete('/api/images/:imageid')
+app.delete('/api/media/:mediaid', userController.deleteMedia)
 app.delete('/api/events/:eventid', userController.deleteEvent)
 app.delete('/api/quote/:quoteid', userController.deleteQuote)
 
 
+
+//===============STRIPE PAYMENT===================
+app.post('/api/payment', function(req, res, next){
+  //convert amount to pennies
+  const amountArray = req.body.amount.toString().split('');
+  const pennies = [];
+  for (var i = 0; i < amountArray.length; i++) {
+    if(amountArray[i] === ".") {
+      if (typeof amountArray[i + 1] === "string") {
+        pennies.push(amountArray[i + 1]);
+      } else {
+        pennies.push("0");
+      }
+      if (typeof amountArray[i + 2] === "string") {
+        pennies.push(amountArray[i + 2]);
+      } else {
+        pennies.push("0");
+      }
+    	break;
+    } else {
+    	pennies.push(amountArray[i])
+    }
+  }
+  const convertedAmt = parseInt(pennies.join(''));
+console.log(req.body.token.token.id, 'this is the token id')
+  const charge = stripe.charges.create({
+  amount: convertedAmt, // amount in cents, again
+  currency: 'usd',
+  source: req.body.token.token.id,
+  description: 'Test charge from react app'
+}, function(err, charge) {
+    if (err) {
+      console.log(err)
+      res.sendStatus(500)
+    } else
+    return res.sendStatus(200);
+  // if (err && err.type === 'StripeCardError') {
+  //   // The card has been declined
+  // }
+});
+});
+//===============STRIPE PAYMENT ENDS===================
 
 
 // const path = require('path')
 // app.get('*', (req, res)=>{
 // res.sendFile(path.join(__dirname, '..','build','index.html'));
 // })
+
+const path = require('path')
+app.get('*', (req, res)=>{
+  res.sendFile(path.join(__dirname, '..','build','index.html'));
+})

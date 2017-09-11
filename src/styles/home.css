@@ -7,13 +7,20 @@
   background-image: url('./../images/elsistema.jpg');
   background-size: cover;
   background-repeat: no-repeat;
+  z-index: -1;
 }
 
 .quoteContainer {
+  box-sizing: border-box;
   position: absolute;
   height: 100%;
   width: 47.5%;
+  padding-top: 5px;
   background-color: rgba(74,95,107,0.85);
+}
+
+.homeSocial {
+  font-size: .75em;
 }
 
 .socialIconsQuote {
@@ -34,8 +41,7 @@
   width: 24px;
   border-radius: 50%;
   background-color: #ECC749;
-  margin-right: 1em;
-  margin-top: .5em;
+  margin: .25em .5em 0 .5em;
 }
 
 .blockquote {
@@ -129,8 +135,8 @@
 }
 
 .eventImg {
-  width: 35vh;
-  height: 35vh;
+  width: 30vh;
+  height: 30vh;
   background-size: cover;
   background-repeat: no-repeat;
 }
@@ -228,7 +234,7 @@
   min-height: 24vh;
   width: 90%;
   margin: 0 auto;
-  background-image: url('./../images/standup-violin.jpg');
+  background-image: url('./../images/es-blog-11.png');
   background-size: cover;
 }
 
@@ -253,8 +259,9 @@
 }
 
 .coreValuesTextThree {
+  box-sizing: border-box;
   position: absolute;
-  height: 34vh;
+  min-height: 38vh;
   width: 70%;
   bottom: -33vh;
   right: -1vh;
@@ -292,8 +299,7 @@
   align-items: center;
   width: 7em;
   height: 2em;
-  margin: 0 auto;
-  margin-top: 1em;
+  margin: 1.5em auto;
   border: 1px solid #ECC749;
 }
 
@@ -347,6 +353,8 @@
 }
 
 
+
+
 @media(min-width: 700px){
 
   .quoteContainer {
@@ -361,13 +369,18 @@
   }
 
   .blockquote {
-    width: 78%;
+    width: 90%;
     padding-top: 1.5em;
   }
 
   .quote {
     font-size: 1em;
-    margin-bottom: 1em;
+    /*margin-bottom: 1em;*/
+    margin-top: 3em;
+  }
+
+  .homeSocial {
+    font-size: 1em;
   }
 
   .author {
@@ -400,16 +413,19 @@
   .eventsPreviewsContainer {
     justify-content: space-between;
     min-height: 20vh;
+    width: 100%;
+    /*background-color: orange;*/
   }
 
   .eventPreview {
-    width: 22vh;
+    width: 30%;
     min-height: 28vh;
+    /*background-color: pink;*/
   }
 
   .eventImg {
-    width: 20vh;
-    height: 20vh;
+    width: 200px;
+    height: 200px;
   }
 
   .eventDate {
@@ -496,7 +512,8 @@
   }
 
   .coreValuesTextThree {
-    height: 350px;
+    box-sizing: border-box;
+    min-height: 350px;
     min-height: 24vh;
     bottom: -32vh;
   }
@@ -537,6 +554,7 @@
   }
 
   .socialIconsQuote {
+    box-sizing: border-box;
     position: absolute;
     display: flex;
     align-items: center;
@@ -545,9 +563,13 @@
   }
 
   .socialCircleQuote {
-    min-height: 48px;
-    min-width: 48px;
-    margin-top: 0;
+    height: 54px;
+    width: 54px;
+    margin: 0 .75em 0 .75em;
+  }
+
+  .homeSocial {
+    font-size: 1.35em;
   }
 
   .blockquote {
@@ -559,6 +581,7 @@
 
   .quote {
     font-size: x-large;
+    margin-top: 0;
   }
 
   .author {
@@ -573,7 +596,6 @@
     width: 70%;
     min-height: 70vh;
     padding-top: 4vh;
-
   }
 
   .eventsHeader {
@@ -589,11 +611,11 @@
   .eventsPreviewsContainer {
     margin-top: 3vh;
     min-height: 47.5vh;
-
+    /*background-color: orange;*/
   }
 
   .eventPreview {
-    min-width: 333px;
+    width: 300px;
   }
 
 
@@ -603,8 +625,8 @@
   }
 
   .eventImg {
-    width: 333px;
-    height: 333px;
+    width: 300px;
+    height: 300px;
     margin: 0 auto;
   }
 
@@ -671,9 +693,32 @@
   }
 
   .coreValuesTextOne {
-    height: 300px;
+    display: table;
+    min-height: 30vh;
     top: 24vh;
-    font-size: small;
+    /*background-color: plum;*/
+  }
+
+  .valuesTextContainer {
+    display: table-row;
+    width: 100%;
+    min-height: 25vh;
+    /*background-color: lime;*/
+  }
+
+  .homeButtonContainer {
+    box-sizing: border-box;
+    display: table-row;
+    width: 100%;
+    height: 5vh;
+    /*background-color: pink;*/
+  }
+
+  .coreValuesButton {
+    width: 9.5em;
+    height: 2.75em;
+    margin-top: 20px;
+    margin-bottom: 0;
   }
 
   .coreValuesBottom {
@@ -692,9 +737,20 @@
   }
 
   .coreValuesTextThree {
+    display: table;
     height: 350px;
     top: 24vh;
-    font-size: small
+    font-size: small;
+  }
+
+  .textBlockThreeHeader {
+    display: table-row;
+    font-size: 2em;
+    line-height: 1em;
+  }
+
+  .valuesTextBlockThree {
+    display: table-row;
   }
 
   .coreValuesTextFour {
@@ -706,6 +762,16 @@
     background-image: url('./../images/conduct.jpg');
     background-size: cover;
     background-position: center;
+  }
+
+  .supportUsButtonText {
+    font-size: large;
+  }
+
+  .readMoreButton {
+    width: 11.75em;
+    height: 3.25em;
+    margin-bottom: 5px;
   }
 
 }

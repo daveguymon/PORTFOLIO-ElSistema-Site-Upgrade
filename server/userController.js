@@ -78,7 +78,29 @@ module.exports = {
       .then((event) => res.status(200).send(event))
       .catch((err) => res.status(500).send(err))
   },
+  getVolunteerById: function(req,res){
+    const db = req.app.get('db');
+    const {volunteerid} = req.params
 
+    db.get_volunteer_by_id([volunteerid])
+      .then((volunteer) => res.status(200).send(volunteer))
+      .catch((err) => res.status(500).send(err))
+  },
+  getMedia: function(req, res){
+    const db = req.app.get('db');
+
+    db.get_media()
+      .then((media) => res.status(200).send(media))
+      .catch((err) => res.status(500).send(err))
+  },
+  getMediaById: function(req, res){
+    const db = req.app.get('db');
+    const {id} = req.params;
+
+    db.get_media_by_id([id])
+    .then(media => res.status(200).send(media))
+    .catch(err => res.status(500).send(err))
+  },
   //=============POST========================
 
 
@@ -194,9 +216,11 @@ module.exports = {
 
   postVolunteer: function(req,res){
     const db = req.app.get('db');
-    const {name, email, title, profilePic, facebookLink, twitterLink, LinkedInLink, summary} = req.body
+    const {name, email, title, profilePic, facebookLink, twitterLink, linkedInLink, summary} = req.body
 
-    db.post_add_volunteer([name, email, title, profilePic, facebookLink, twitterLink, LinkedInLink, summary])
+    console.log(name, email, title, profilePic, facebookLink, twitterLink, linkedInLink, summary)
+
+    db.post_add_volunteer([name, email, title, profilePic, facebookLink, twitterLink, linkedInLink, summary])
       .then( (response) => {
         res.status(200).send('sentSuccessfully')} )
       .catch( (err) => {
@@ -215,10 +239,22 @@ module.exports = {
         res.status(500).send(err)} )
   },
 
+  postMedia: function(req, res){
+    const db = req.app.get('db');
+    const {media_url, is_picture, description, post_time} = req.body;
+
+    db.post_media([media_url, is_picture, description, post_time]).then(response => {
+      res.status(200).send('sentSuccessfully')
+    }).catch(err => {
+      res.status(500).send(err)
+    })
+  },
+
   postNewPost: function(req,res){
+
     let month_num;
     const db = req.app.get('db');
-    const {user_id} = req.user;
+    const {id} = req.user;
     const {postContent, postThumbnail, postTitle,  year, month, day, blogImage, blogSubtitle} = req.body
     switch (month) {
       case 'January':
@@ -261,19 +297,18 @@ module.exports = {
       default:break;
     }
 
-    db.post_add_posts([user_id, postContent, postThumbnail, postTitle, year, month, day, month_num, blogImage, blogSubtitle])
-    .then( (response) => {
-      res.status(200).send('sentSuccessfully')} )
-    .catch( (err) => {
-      res.status(500).send(err)} )
+    console.log(id, postContent, postThumbnail, postTitle, year, month, day, month_num, blogImage, blogSubtitle)
+
+    db.get_user_id_by_auth([id])
+      .then( id => {
+        db.post_add_posts([id[0].user_id, postContent, postThumbnail, postTitle, year, month, day, month_num, blogImage, blogSubtitle])
+        .then( (response) => {
+          res.status(200).send('sentSuccessfully')} )
+        .catch( (err) => {
+          res.status(500).send(err)} )
+      })
+      .catch(err => res.status(500).send(err) )
   },
-
-
-  // postImage: function(req,res){
-  //   const db = req.app.get('db');
-  //
-  //
-  // },
 
 
   //===============PUT REQUESTS===================
@@ -447,8 +482,19 @@ module.exports = {
       res.status(200).send('sentSuccessfully')} )
     .catch( (err) => {
       res.status(500).send(err)} )
+  },
 
+  putMedia: function(req, res){
+    const db = req.app.get('db');
+    const {id} = req.params;
+    const {media_url, is_picture, description, post_time} = req.body;
 
+    db.put_edit_media([id, media_url, is_picture, description, post_time])
+    .then(response => {
+      res.status(200).send('sentSuccessfully')
+    }).catch(err => {
+      res.status(500).send(err)
+    })
   },
 
 
@@ -476,17 +522,18 @@ module.exports = {
       res.status(500).send(err)} )
 
   },
-  // deleteImage: function(req,res){
-  //   const db = req.app.get('db');
-  //   const {imageid} = req.params
-  //
-  //   db.delete_volunteer([imageid])
-  //   .then( (response) => {
-  //     res.status(200).send('sentSuccessfully')} )
-  //   .catch( (err) => {
-  //     res.status(500).send(err)} )
-  //
-  // },
+  deleteMedia: function(req,res){
+    const db = req.app.get('db');
+    const {mediaid} = req.params
+    console.log(mediaid)
+
+    db.delete_media([mediaid])
+    .then( (response) => {
+      res.status(200).send('sentSuccessfully')} )
+    .catch( (err) => {
+      res.status(500).send(err)} )
+
+  },
 
 
   deleteEvent: function(req,res){

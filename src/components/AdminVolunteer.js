@@ -1,25 +1,52 @@
 import React, {Component} from 'react';
 import './../styles/adminEditor.css';
+import axios from 'axios';
+import IndivVolunteerDetails from './IndivVolunteerDetails';
+import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
 
 class AdminVolunteer extends Component{
   constructor(props){
     super(props);
       this.state ={
-        fetchedPosts: [],
+        fetchedVolunteers: [],
         checkAllBoxes: false,
         amountChecked: 0
       }
   }
 
+
+  componentDidMount(){
+    axios.get('/api/admin')
+      .then(res => {
+        if(!res.data[0].admin_status){
+          this.props.history.push('/')
+        }
+      })
+    axios.get('/api/volunteers').then(res => {
+      this.setState({
+        fetchedVolunteers: res.data
+      })
+    }).catch(err => console.log(err));
+  }
+
+  reloadVolunteers(){
+    axios.get('/api/volunteers').then(res => {
+      this.setState({
+        fetchedVolunteers: res.data
+      })
+    }).catch(err => console.log(err));
+  }
+
   markAllChecked(){
     this.setState({
       checkAllBoxes: !this.state.checkAllBoxes,
-      amountChecked: this.state.fetchedPosts.length
+      amountChecked: this.state.fetchedVolunteers.length
     })
   }
 
   render(){
+    console.log(this.state.fetchedVolunteers)
 
     const checkedBoxStyle = { backgroundColor: "#5182EA", borderColor: "#5182EA"}
 
@@ -27,14 +54,28 @@ class AdminVolunteer extends Component{
 
     const fullPageStyle = { width: "100%" }
 
+    const fetchedItemsAmount = this.state.fetchedVolunteers.length == 1 ? "item selected" : "items selected"
+
+    const displayTrashAll = {display: "none"}
+
+    const allVolunteers = this.state.fetchedVolunteers.map((person, i) => {
+      return (
+      <IndivVolunteerDetails key={i} index={i} person={person} checkAll={this.state.checkAllBoxes} reloadVolunteers={this.reloadVolunteers.bind(this)} />
+    )
+  })
+
     return(
       <main className="adminWrapper" style={ this.props.dropdownDisplayed ? null : fullPageStyle}>
         <section className="adminContentContainer">
           <div className="adminPageHeaderContainer">
-            <p className="adminPageHeader">Current Blog Posts</p>
+            <p className="adminPageHeader">Current Volunteers</p>
+            <Link to="/admin/volunteer/addNew">
+              <i className="fa fa-plus-square" aria-hidden="true"></i>
+            </Link>
           </div>
           <div className="itemsSelected">
-            <p>ITEMS SELECTED TEXT GOES HERE</p>
+          <p>{this.state.checkAllBoxes ? this.state.amountChecked : 0} {fetchedItemsAmount}</p>
+          <p style={this.state.checkAllBoxes ? null : displayTrashAll}><i className="fa fa-trash trashAll" aria-hidden="true"></i></p>
           </div>
           <div className="columnTitles postDetailsWrapper" style={this.state.checkAllBoxes ? itemRowSelectedStyle : null}>
             <div className="blogDetailsItem1">
@@ -53,7 +94,7 @@ class AdminVolunteer extends Component{
               <p>Actions</p>
             </div>
           </div>
-          INDIV VOLUNTEER COMPONENT HERE
+          {allVolunteers}
         </section>
       </main>
     )
